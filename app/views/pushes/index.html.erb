@@ -1,0 +1,54 @@
+<h1>Pushes#index</h1>
+<p>Find me in app/views/pushes/index.html.erb</p>
+<button>Notify me!</button>
+<script type="text/javascript">
+window.addEventListener('load', function () {
+  if (window.Notification && Notification.permission !== "granted") {
+    Notification.requestPermission(function (status) {
+      if (Notification.permission !== status) {
+        Notification.permission = status;
+      }
+    });
+  }
+
+  var button = document.getElementsByTagName('button')[0];
+
+  button.addEventListener('click', function () {
+    if (window.Notification && Notification.permission === "granted") {
+      var i = 0;
+      var interval = window.setInterval(function () {
+        var n = new Notification("Hi! " + i, {tag: 'soManyNotification'});
+        if (i++ == 9) {
+          window.clearInterval(interval);
+        }
+      }, 200);
+    }
+
+    else if (window.Notification && Notification.permission !== "denied") {
+      Notification.requestPermission(function (status) {
+        if (Notification.permission !== status) {
+          Notification.permission = status;
+        }
+
+        if (status === "granted") {
+          var i = 0;
+          var interval = window.setInterval(function () {
+            var n = new Notification("Hi! " + i, {tag: 'soManyNotification'});
+            if (i++ == 9) {
+              window.clearInterval(interval);
+            }
+          }, 200);
+        }
+
+        else {
+          alert("Hi!");
+        }
+      });
+    }
+
+    else {
+      alert("Hi!");
+    }
+  });
+});
+</script>
